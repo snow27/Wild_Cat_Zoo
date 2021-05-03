@@ -1,13 +1,14 @@
 class Tiger:
-    def __init__(self, name, gender, age):
+    needed_money = 45
+
+    def __init__(self, name, gander, age):
         self.name = name
-        self.gender = gender
+        self.gender = gander
         self.age = age
 
     @staticmethod
     def get_needs():
-        return 45
+        return Tiger.needed_money
 
     def __repr__(self):
         return f"Name: {self.name}, Age: {self.age}, Gender: {self.gender}"
-

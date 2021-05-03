@@ -10,48 +10,48 @@ class Zoo:
     def __init__(self, name, budget, animal_capacity, workers_capacity):
         self.name = name
         self.__budget = budget
-        self.__workers_capacity = workers_capacity
         self.__animal_capacity = animal_capacity
+        self.__workers_capacity = workers_capacity
         self.animals = []
-        self. workers = []
+        self.workers = []
 
     def add_animal(self, animal, price):
-        if self.__budget >= price and self.__animal_capacity > len(self.animals):
+        if len(self.animals) < self.__animal_capacity and price <= self.__budget:
             self.animals.append(animal)
             self.__budget -= price
             return f"{animal.name} the {animal.__class__.__name__} added to the zoo"
-        elif self.__animal_capacity > len(self.animals) and self.__budget < price:
+        elif len(self.animals) < self.__animal_capacity and price > self.__budget:
             return "Not enough budget"
         return "Not enough space for animal"
 
     def hire_worker(self, worker):
-        if self.__workers_capacity > len(self.workers):
+        if len(self.workers) < self.__workers_capacity:
             self.workers.append(worker)
             return f"{worker.name} the {worker.__class__.__name__} hired successfully"
         return "Not enough space for worker"
 
-    def fire_worker(self, worker_name):
-        worker = [w for w in self.workers if w.name == worker_name]
+    def fire_worker(self, work_name):
+        worker = [w for w in self.workers if w.name == work_name]
         if worker:
             self.workers.remove(worker[0])
-            return f"{worker_name} fired successfully"
-        return f"There is no {worker_name} in the zoo"
+            return f"{work_name} fired successfully"
+        return "There is no {worker_name} in the zoo"
 
     def pay_workers(self):
-        sum_of_salaries = 0
-        for w in self.workers:
-            sum_of_salaries += w.salary
-        if self.__budget >= sum_of_salaries:
-            self.__budget -= sum_of_salaries
+        total_sum = 0
+        for worker in self.workers:
+            total_sum += worker.salary
+        if total_sum <= self.__budget:
+            self.__budget -= total_sum
             return f"You payed your workers. They are happy. Budget left: {self.__budget}"
-        return "You have no budget to pay your workers. They are unhappy"
+        return f"You have no budget to pay your workers. They are unhappy"
 
     def tend_animals(self):
-        tend = 0
-        for a in self.animals:
-            tend += a.get_needs()
-        if self.__budget >= tend:
-            self.__budget  -= tend
+        total_sum = 0
+        for animal in self.animals:
+            total_sum += animal.get_needs()
+        if total_sum <= self.__budget:
+            self.__budget -= total_sum
             return f"You tended all the animals. They are happy. Budget left: {self.__budget}"
         return "You have no budget to tend the animals. They are unhappy."
 
@@ -60,42 +60,37 @@ class Zoo:
 
     def animals_status(self):
         result = f"You have {len(self.animals)} animals\n"
-        lions = [animal for animal in self.animals if animal.__class__.__name__ == "Lion"]
-        tigers = [animal for animal in self.animals if animal.__class__.__name__ == "Tiger"]
-        cheetahs = [animal for animal in self.animals if animal.__class__.__name__ == "Cheetah"]
+        lions = [a for a in self.animals if a.__class__.__name__ == "Lion"]
+        tigers = [a for a in self.animals if a.__class__.__name__ == "Tiger"]
+        cheetah = [a for a in self.animals if a.__class__.__name__ == "Cheetah"]
         result += f"----- {len(lions)} Lions:\n"
-        for lion in lions:
-            result += f"{lion}\n"
+        for l in lions:
+            result += f"{l}\n"
         result += f"----- {len(tigers)} Tigers:\n"
-
-        for tiger in tigers:
-            result += f"{tiger}\n"
-
-        result += f"----- {len(cheetahs)} Cheetahs:\n"
-
-        for cheetah in cheetahs:
-            result += f"{cheetah}\n"
-        return result.rstrip()
+        for t in tigers:
+            result += f"{t}\n"
+        result += f"----- {len(cheetah)} Cheetahs:\n"
+        for c in cheetah:
+            result += f"{c}\n"
+        result = result.strip()
+        return result
 
     def workers_status(self):
         result = f"You have {len(self.workers)} workers\n"
-        keepers = [worker for worker in self.workers if worker.__class__.__name__ == "Keeper"]
-        caretakers = [worker for worker in self.workers if worker.__class__.__name__ == "Caretaker"]
-        vets = [worker for worker in self.workers if worker.__class__.__name__ == "Vet"]
-
+        keepers = [w for w in self.workers if w.__class__.__name__ == "Keeper"]
+        caretakers = [w for w in self.workers if w.__class__.__name__ == "Caretaker"]
+        vets = [w for w in self.workers if w.__class__.__name__ == "Vet"]
         result += f"----- {len(keepers)} Keepers:\n"
-        for keeper in keepers:
-            result += f"{keeper}\n"
-
+        for k in keepers:
+            result += f"{k}\n"
         result += f"----- {len(caretakers)} Caretakers:\n"
-        for caretaker in caretakers:
-            result += f"{caretaker}\n"
-
+        for c in caretakers:
+            result += f"{c}\n"
         result += f"----- {len(vets)} Vets:\n"
-        for vet in vets:
-            result += f"{vet}\n"
-
-        return result.rstrip()
+        for v in vets:
+            result += f"{v}\n"
+        result = result.strip()
+        return result
 
 
 zoo = Zoo("Zootopia", 3000, 5, 8)
@@ -131,3 +126,4 @@ print(zoo.fire_worker("Adam"))
 # Printing statuses
 print(zoo.animals_status())
 print(zoo.workers_status())
+

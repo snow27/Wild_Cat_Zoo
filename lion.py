@@ -1,12 +1,14 @@
 class Lion:
-    def __init__(self, name, gender, age):
+    needed_money = 50
+
+    def __init__(self, name, gander, age):
         self.name = name
-        self.gender = gender
+        self.gender = gander
         self.age = age
 
     @staticmethod
     def get_needs():
-        return 50
+        return Lion.needed_money
 
     def __repr__(self):
         return f"Name: {self.name}, Age: {self.age}, Gender: {self.gender}"
